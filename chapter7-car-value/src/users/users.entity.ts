@@ -1,3 +1,4 @@
+import Report from 'src/reports/reports.entity';
 import {
   AfterInsert,
   AfterRemove,
@@ -5,6 +6,7 @@ import {
   Entity,
   Column,
   PrimaryGeneratedColumn,
+  OneToMany,
 } from 'typeorm';
 @Entity()
 export default class User {
@@ -14,16 +16,19 @@ export default class User {
   email: string;
   @Column()
   password: string;
+
+  @OneToMany(() => Report, (report) => report.user)
+  reports: Report[];
   @AfterInsert()
   logInsert() {
-    console.log(`insert user ${JSON.stringify(this)}`);
+    process.env.LOG_DB && console.log(`insert user ${JSON.stringify(this)}`);
   }
   @AfterUpdate()
   logUpdate() {
-    console.log(`update user with id: ${this.id}`);
+    process.env.LOG_DB && console.log(`update user with id: ${this.id}`);
   }
   @AfterRemove()
   logRemove() {
-    console.log(`remove user with id: ${this.id}`);
+    process.env.LOG_DB && console.log(`remove user with id: ${this.id}`);
   }
 }

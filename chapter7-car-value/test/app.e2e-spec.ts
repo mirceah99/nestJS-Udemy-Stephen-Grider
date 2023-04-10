@@ -5,6 +5,7 @@ import { AppModule } from '../src/app.module';
 
 describe('AppController (e2e)', () => {
   let app: INestApplication;
+  global.server = app;
 
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -14,7 +15,9 @@ describe('AppController (e2e)', () => {
     app = moduleFixture.createNestApplication();
     await app.init();
   });
-
+  afterEach(async () => {
+    await app.close();
+  });
   it('/ (GET)', () => {
     return request(app.getHttpServer())
       .get('/')
