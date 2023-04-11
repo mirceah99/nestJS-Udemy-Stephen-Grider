@@ -12,6 +12,10 @@ import {
 export default class User {
   @PrimaryGeneratedColumn()
   id: number;
+
+  @Column({ default: true })
+  admin: boolean;
+
   @Column()
   email: string;
   @Column()
